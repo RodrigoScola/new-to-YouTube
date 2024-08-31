@@ -1,0 +1,13 @@
+{
+     "name": "Page Redder",
+     "action": {},
+     "manifest_version": 3,
+     "version": "0.1",
+     "description": "makes the default page for the youtube home the new to you",
+     "permissions": ["activeTab", "scripting", "webNavigation"],
+     "host_permissions": ["*://*.youtube.com/*", "http://*/", "https://*/"],
+     "background": {
+          "service_worker": "service-worker.js"
+     }
+}
+
