@@ -1,33 +1,46 @@
-function reddenPage() {
-     const clickEvent = new MouseEvent('click', {
-          view: window,
-          bubbles: true,
-          cancelable: true,
-     })
-     const int = setInterval(() => {
+function execute() {
+     setTimeout(() => {
+          const clickEvent = new MouseEvent('click', {
+               view: window,
+               bubbles: true,
+               cancelable: true,
+          })
+
           const rightArrow = document.querySelector('#right-arrow-button')
+          if (rightArrow) {
+               rightArrow.dispatchEvent(clickEvent)
+               rightArrow.dispatchEvent(clickEvent)
+               rightArrow.dispatchEvent(clickEvent)
+               rightArrow.dispatchEvent(clickEvent)
+          }
+
           const element = document.querySelector(
                'yt-formatted-string[title="New to you"]'
           )
-          if (!rightArrow || !element) {
-               console.error('page has not loaded probably, trying again')
-               return
+          if (element) {
+               const clickEvent = new MouseEvent('click', {
+                    view: window,
+                    bubbles: true,
+                    cancelable: true,
+               })
+               element.dispatchEvent(clickEvent)
           }
-          //sometimes youtube thinks that were a bot and goes back to the all tab so we need to click the right arrow a few times
-          rightArrow.dispatchEvent(clickEvent)
-          rightArrow.dispatchEvent(clickEvent)
-          rightArrow.dispatchEvent(clickEvent)
-          element.dispatchEvent(clickEvent)
-          rightArrow.dispatchEvent(clickEvent)
-          clearInterval(int)
      }, 100)
 }
 
+// chrome.webNavigation.onDOMContentLoaded.addListener((details) => {
+//      if (details.url.includes('youtube.com')) {
+//           chrome.scripting.executeScript({
+//                target: { tabId: details.tabId },
+//                func: reddenPage,
+//           })
+//      }
+// })
 chrome.webNavigation.onCompleted.addListener((details) => {
      if (details.url.includes('youtube.com')) {
           chrome.scripting.executeScript({
                target: { tabId: details.tabId },
-               func: reddenPage,
+               func: execute,
           })
      }
 })
@@ -37,7 +50,7 @@ chrome.action.onClicked.addListener((tab) => {
      if (!tab.url.includes('chrome://')) {
           chrome.scripting.executeScript({
                target: { tabId: tab.id },
-               func: reddenPage,
+               func: execute,
           })
      }
 })
